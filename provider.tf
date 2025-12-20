@@ -121,7 +121,7 @@ resource "aws_autoscaling_policy" "home_scale_up" {
     target_value = 50
 
     predefined_load_metric_specification {
-      predefined_metric_type = "ASGAverageCPUUtilization"
+      predefined_metric_type = "ASGTotalCPUUtilization"
     }
   }
 }
@@ -161,7 +161,7 @@ resource "aws_autoscaling_policy" "mobile_scale_up" {
     target_value = 50
 
     predefined_load_metric_specification {
-      predefined_metric_type = "ASGAverageCPUUtilization"
+      predefined_metric_type = "ASGTotalCPUUtilization"
     }
   }
 }
@@ -200,7 +200,7 @@ resource "aws_autoscaling_policy" "laptop_scale_up" {
     target_value = 50
 
     predefined_load_metric_specification {
-      predefined_metric_type = "ASGAverageCPUUtilization"
+      predefined_metric_type = "ASGTotalCPUUtilization"
     }
   }
 }
