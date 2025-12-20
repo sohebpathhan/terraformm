@@ -38,8 +38,8 @@ resource "aws_launch_template" "home_template" {
   instance_type = "t3.micro"
   key_name      = "micro_central"
 
- 
-  vpc_security_group_ids = [ aws_security_group.allow_ssh ]
+
+  vpc_security_group_ids = [aws_security_group.allow_ssh.id]
 
   user_data = base64encode( <<-EOF
               #!/bin/bash
@@ -59,7 +59,7 @@ resource "aws_launch_template" "mobile_template" {
   instance_type = "t3.micro"
   key_name      = "micro_central"
 
-  vpc_security_group_ids = [ aws_security_group.allow_ssh ]
+  vpc_security_group_ids = [aws_security_group.allow_ssh.id]
 
   user_data = base64encode( <<-EOF
               #!/bin/bash
@@ -79,7 +79,7 @@ resource "aws_launch_template" "laptop_template" {
   instance_type = "t3.micro"
   key_name      = "micro_central"
 
-  vpc_security_group_ids = [ aws_security_group.allow_ssh ]
+  vpc_security_group_ids = [aws_security_group.allow_ssh.id]
 
   user_data = base64encode( <<-EOF
               #!/bin/bash
