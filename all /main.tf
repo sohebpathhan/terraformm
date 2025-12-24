@@ -1,6 +1,6 @@
 resource "aws_instance" "pract1" {
-  ami = "ami-0d5d9d301c853a04a"
-  instance_type = "t3.micro"
+  ami = var.ami_id
+  instance_type = var.instance_type
   key_name = "micro_central"
   security_groups = ["default"]
 
