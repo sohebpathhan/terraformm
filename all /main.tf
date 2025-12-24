@@ -7,4 +7,4 @@ resource "aws_instance" "pract12" {
   tags = {
     Name="pract1"
   }
-}   
+}       
