@@ -16,3 +16,22 @@ resource "aws_security_group" "my_sg_01" {
         cidr_blocks = ["0.0.0.0/0"]
     }       
 }
+
+resource "aws_instance" "pract03" {
+  ami = var.ami_id
+  instance_type = var.instance_type
+  key_name = "micro_central"
+  security_groups = [aws_security_group.my_sg_01.name]
+
+  tags = {
+    Name="pract03"
+  }
+}
+
+variable "ami_id" {
+  default = "ami-0abac8735a38475db"
+}
+
+variable "instance_type" {
+  default = "t3.micro"
+}
