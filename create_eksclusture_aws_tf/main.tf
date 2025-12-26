@@ -1,0 +1,46 @@
+# create iam rolef or eks cluster
+resource "aws_iam_role" "eks_cluster_role" {
+  name = "eks_cluster_role" 
+    assume_role_policy = jsonencode({
+        Version = "2012-10-17"
+        Statement = [
+        {
+            Action = "sts:AssumeRole"
+            Effect = "Allow"
+            Principal = {
+            Service = "eks.amazonaws.com"
+            }
+        },
+        ]
+    })  
+}
+#attach policies to iam role
+resource "aws_iam_role_policy_attachment" "eks_cluster_AmazonEKSClusterPolicy" {
+  role       = aws_iam_role.eks_cluster_role.name       
+    policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
+}
+
+resource "aws_iam_role_policy_attachment" "eks_cluster_AmazonEKSServicePolicy" {
+  role       = aws_iam_role.eks_cluster_role.name
+    policy_arn = "arn:aws:iam::aws:policy/AmazonEKSServicePolicy"
+}
+
+
+#create eks cluster on aws
+resource "aws_eks_cluster" "prod" {
+  name     = "prod-eks-cluster"
+  role_arn = aws_iam_role.eks_cluster_role.arn
+
+  vpc_config {
+    subnet_ids = [aws_subnet.subnet1.id, aws_subnet.subnet2.id]
+  }
+   #depend block sets the priority of resource creation
+  depends_on = [
+    aws_iam_role_policy_attachment.eks_cluster_AmazonEKSClusterPolicy,
+    aws_iam_role_policy_attachment.eks_cluster_AmazonEKSServicePolicy,
+  ]
+  
+}
+
+
+  
