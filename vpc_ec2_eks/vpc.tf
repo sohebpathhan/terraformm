@@ -1,11 +1,11 @@
 provider "aws" {
-  region = "us-east-2"
+  region = var.region
 }
 # create vpc
 resource "aws_vpc" "myvpc" {
-  cidr_block = "10.0.0.0/20"
+  cidr_block = var.vpc_cidr_block
   tags = {
-    Name = "myvpc"
+    Name = var.vpc_name
   }
 }
 
@@ -15,7 +15,7 @@ resource "aws_subnet" "mysubnet" {
   cidr_block = "10.0.1.0/24"
   availability_zone = "us-east-2a"
   tags = {
-    Name = "mysubnet"
+    Name = var.subnet_name
   }
 }
 
@@ -23,7 +23,7 @@ resource "aws_subnet" "mysubnet" {
 resource "aws_internet_gateway" "myigw" {
   vpc_id = aws_vpc.myvpc.id
   tags = {
-    Name = "myigw"
+    Name = var.igw_name
   }
 }
 # default route table
@@ -35,15 +35,15 @@ resource "aws_default_route_table" "main_rt" {
         gateway_id = aws_internet_gateway.myigw.id
     }
     tags = {
-        Name = "main_rt"
+        Name = var.route_table_name
     }
 }
 
 
 # create instance with resource
 resource "aws_instance" "myinstance" {
-    ami = "ami-06e3c045d79fd65d9"
-    instance_type = "t3.micro"
+    ami = var.ami_id
+    instance_type = var.ins_type
     key_name = "shoh"
     subnet_id = aws_subnet.mysubnet.id
     vpc_security_group_ids = [aws_security_group.mysg.id]
@@ -51,7 +51,7 @@ resource "aws_instance" "myinstance" {
 
 # create security group
 resource "aws_security_group" "mysg" {
-    name = "mysg"
+    name = var.security_group_name
     description = "Allow HTTP and SSH traffic"
     vpc_id = aws_vpc.myvpc.id
 
